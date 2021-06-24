@@ -83,14 +83,53 @@ class Service(Reader):
                        '부천':['오정구', '원미구', '소사구']}
 
 
-        for n in pop.index:
-            if pop['광역시도'][n]:
-                pass
-
-
-
 if __name__ == '__main__':
     s = Service()
     s.save_pop()
+
+
+'''
+
+        for n in pop.index:
+        # 광역시도 칼럼에서 광역시,특별시자치시를 제외한 경기도,전라남도 등 도를 뽑아라 
+            if pop['광역시도'][n][-3:] not in ['광역시', '특별시', '자치시']:
+                # 만약 시도가 고성 = 강원도면 고성(강원)으로 출력하라 
+                if pop['시도'][n][:-1] == '고성' and pop['광역시도'][n] == '강원도':
+                    si_name[n] = '고성(강원)'
+                elif pop['시도'][n][:-1] == '고성' and pop['광역시도'][n] == '경상남도':
+                    si_name[n] = '고성(경남)'
+                    
+                    # 위의 것과 다른 경우에의 일반적 시,도 에는 '안성시' '시' 를 빼고 '안성' 만 뽑아라 
+                else:
+                    si_name[n] = pop['시도'][n][:-1]                
+                # tmp_gu_dict.items(): 이것들은 시에 포함되어 있는 구가 따로 존재 하니 딕셔너리로 만들어주고
+                
+                for keys, values in tmp_gu_dict.items():
+                    if pop['시도'][n] in values:
+                        #만약 '시도' 의 길이가 2이면 그대로 진행 (부산 - 남구)
+                        if len(pop['시도'][n]) == 2:
+                            si_name[n] = keys + ' ' + pop['시도'][n]
+                        #마산합포구 라면 앞 두글자 뒤 한글자를 제외한 것만 출력     
+                        elif pop['시도'][n] in ['마산합포구', '마산회원구']:
+                            si_name[n] = keys + ' ' + pop['시도'][n][2:-1]
+                        # 마지막 한글자 제외 출력 (tmp_gu_dict.items())     
+                        else:
+                            si_name[n] = keys + ' ' + pop['시도'][n][:-1]
+            # 세종 특별자치시는 한개 뿐 
+            elif pop['광역시도'][n] == '세종특별자치시':
+                si_name[n] = '세종'
+                
+            # 나머지는 광역시, 특별시, 자치시 중에서  
+            else:
+                #'시도'가 2글자인 경우 (광역시도의 앞 2글자 + '시도'
+                if len(pop['시도'][n]) == 2:
+                    si_name[n] = pop['광역시도'][n][:2] + ' ' + pop['시도'][n]
+                else:
+                    si_name[n] = pop['광역시도'][n][:2] + ' ' + pop['시도'][n][:-1]
+                    
+                    '''
+
+
+
 
 
