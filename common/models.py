@@ -52,5 +52,8 @@ class Reader(object):
     def xls(self, file, header, usecols) -> object:
         return pd.read_excel(f'{self.new_file(file)}.xls', header=header, usecols=usecols)
 
+    def xls_2(self, file, header, usecols) -> object:
+        return pd.read_excel(f'{self.new_file(file)}.xls', header=header, usecols=usecols)
+
     def gmaps(self) -> object:
         return googlemaps.Client(key='')
